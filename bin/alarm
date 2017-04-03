@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+#/ usage: alarm [NAME]
+#/
+#/   NAME     personal name (default: Hey)
+set -e
+
+source 'common.bash'
+source 'system_volume_helpers.bash'
+source 'itunes_helpers.bash'
+
+if [[ $1 == '--help' ]]; then
+  print_help
+  exit 2
+fi
+
+name=${1:-"Hey"}
+
+## Music
+
+unmute_system
+set_system_volume 50
+set_itunes_volume 70
+play_playlist 'Alarm'
+sleep 120
+
+## Voice
+
+set_system_volume 70
+while true; do
+  message="${name}, wake up\!"
+  time=$(date '+%H:%M')
+  time_message="It's ${time}"
+
+  say -r 250 $message
+  sleep 0.5
+  say $time_message
+  sleep 0.5
+  say $time_message
+
+  sleep 60
+done

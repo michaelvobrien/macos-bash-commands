@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+#/ usage: sshvpn [user@]hostname proxy_port
+set -e
+
+source 'common.bash'
+
+if [[ $# == 0 || $1 == '--help' ]]; then
+  print_help
+  exit 2
+elif [[ -z $2 ]]; then
+  error 'Port number is missing.'
+  exit 2
+fi
+
+host=$1
+proxy_port=$2
+
+sudo_command() {
+  sudo -p 'System Password: ' $1
+}
+
+disable_proxy() {
+  sudo_command 'networksetup -setsocksfirewallproxystate Wi-Fi off'
+  info 'SOCKS proxy disabled'
+}
+
+enable_proxy() {
+  sudo_command "networksetup -setsocksfirewallproxy Wi-Fi 127.0.0.1 $proxy_port"
+  sudo_command 'networksetup -setsocksfirewallproxystate Wi-Fi on'
+  trap disable_proxy INT
+  info 'SOCKS proxy enabled'
+}
+
+enable_proxy
+info "Tunneling through ${host}:${proxy_port}..."
+ssh -Nv -D $proxy_port $host

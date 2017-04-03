@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+#/ usage: pomodoro-service [MINUTES]
+#/
+#/   MINUTES    (default: 20)
+
+source 'common.bash'
+
+if [[ $1 == '--help' ]]; then
+  print_help
+  exit 2
+fi
+
+minutes=${1:-20}
+dtach -A /tmp/pomodoro-service pomodoro $minutes

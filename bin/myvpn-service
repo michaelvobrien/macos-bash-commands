@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+dtach -A /tmp/sshvpn_myserver sshvpn myserver 8111
