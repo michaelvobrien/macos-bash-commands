@@ -2,6 +2,10 @@
 
 Bash commands for macOS.
 
+* [sshvpn](#sshvpn) -- vpn/proxy through a remote server
+* [alarm](#alarm) -- wake up to iTunes and a computer voice
+* [pomodoro](#pomodoro) -- notifications to take a break
+
 ## Requirements
 
 ```sh
@@ -13,7 +17,7 @@ brew install terminal-notifier \
 Set the `PATH` to include the `bin` directory.
 
 
-## sshvpn and myvpn-service
+## sshvpn
 
 `sshvpn` sets the macOS preferences to use a SOCKS proxy at
 `127.0.0.1:PORT` (e.g. PORT=8111). Next, `sshvpn` establishes a ssh
@@ -39,8 +43,8 @@ Host myserver
 sshvpn myserver 8111
 ```
 
-The service has the host and port set, and it uses `dtach` to put it
-into the background.
+`myvpn-service` has the host and port set, and it uses `dtach` to put
+it into the background.
 
 ```sh
 myvpn-service
@@ -69,6 +73,8 @@ crontab -e
 ```
 
 ### Turn off alarm
+
+This is purposely difficult in order to become more aware and awake.
 
 ```sh
 ps aux | grep alarm
